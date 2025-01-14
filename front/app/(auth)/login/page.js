@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import React, { useContext, useState } from "react";
 import { Toaster, toast } from "sonner";
 
-function login() {
+function Login() {
   const router = useRouter();
 
   const { login, isLogged } = useContext(UserContext);
