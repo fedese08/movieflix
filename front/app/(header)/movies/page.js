@@ -2,7 +2,7 @@
 import Section from "@/components/VideoSection/Section";
 import React, { useEffect, useState } from "react";
 
-export default function page() {
+export default function MoviesPage() {
   const [categories, setCategories] = useState(null);
 
   const [genre, setGenre] = useState(null);
