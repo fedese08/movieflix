@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+@font-face {
+  font-family: 'netflix-sans';
+  src: 
+    url('../public/fonts/NetflixSans-Bold.otf') format('otf'),
+    url('../public/fonts/NetflixSans-Light.otf') format('otf'),
+    url('../public/fonts/NetflixSans-Medium.otf') format('otf'),
+    url('../public/fonts/NetflixSans-Regular.otf') format('otf'),
+}
+
+.netf-sans{
+  font-family: 'netflix-sans', sans-serif;
+}
+
+body {
+  background-color: #171717;
+  color: #ffff;
+}
+
+
+.img-grad {
+  mask-image: linear-gradient(black 50%, transparent);
+}
