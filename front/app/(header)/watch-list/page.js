@@ -141,7 +141,7 @@ function Watchlist() {
                 <div className="flex invisible relative h-[16em] gap-4 justify-center pb-4 group-hover:visible items-end">
                   <Tooltip content="More info">
                     <button
-                      onClick={() => router.push(`/video/${film.id}`)}
+                      onClick={() => router.push(`/video/movie/${film.id}`)}
                       className="text-[20px] font-bold border-[2px] border-[#858585] p-1 rounded-full bg-[#5c5c5c9c]"
                     >
                       <svg
