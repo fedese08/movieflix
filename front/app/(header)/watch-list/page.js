@@ -130,18 +130,18 @@ function Watchlist() {
       </div>
       <div className="flex flex-wrap gap-4 ">
         {selection === "watchlist" ? (
-          watchList.length > 0 ? (
+          watchList?.length > 0 ? (
             watchList?.map((film) => (
               <div key={film.id} className="h-[16em] w-[10em] group">
                 <img
-                  src={`https://image.tmdb.org/t/p/w500${film.poster_path}`}
+                  src={`https://image.tmdb.org/t/p/w500${film?.poster_path}`}
                   alt={film.title}
                   className="rounded-md absolute h-[16em] w-[10em] group-hover:opacity-30  duration-300 "
                 />
                 <div className="flex invisible relative h-[16em] gap-4 justify-center pb-4 group-hover:visible items-end">
                   <Tooltip content="More info">
                     <button
-                      onClick={() => router.push(`/video/movie/${film.id}`)}
+                      onClick={() => router.push(`/video/movie/${film?.id}`)}
                       className="text-[20px] font-bold border-[2px] border-[#858585] p-1 rounded-full bg-[#5c5c5c9c]"
                     >
                       <svg
@@ -166,7 +166,7 @@ function Watchlist() {
                   </Tooltip>
                   <Tooltip content="Mark as watched">
                     <button
-                      onClick={() => handleWatched(film.id)}
+                      onClick={() => handleWatched(film?.id)}
                       className="text-[20px] font-bold border-[2px] border-[#858585] p-1 rounded-full bg-[#5c5c5c9c]"
                     >
                       <svg
@@ -197,20 +197,17 @@ function Watchlist() {
           ) : (
             <p>The list is empty</p>
           )
-        ) : watched.length > 0 ? (
+        ) : watched?.length > 0 ? (
           watched?.map((film) => (
-            <div key={film.id} className="h-[16em] w-[10em] group">
+            <div key={film?.id} className="h-[16em] w-[10em] group">
               <img
-                src={`https://image.tmdb.org/t/p/w500${film.poster_path}`}
-                alt={film.title}
+                src={`https://image.tmdb.org/t/p/w500${film?.poster_path}`}
+                alt={film?.title}
                 className="rounded-md absolute h-[16em] w-[10em] group-hover:opacity-30  duration-300 "
               />
               <div className="flex invisible relative h-[16em] gap-4 justify-center pb-4 group-hover:visible items-end">
                 <Tooltip content="More info">
-                  <button
-                    onClick={() => {}}
-                    className="text-[20px] font-bold border-[2px] border-[#858585] p-1 rounded-full bg-[#5c5c5c9c]"
-                  >
+                  <button className="text-[20px] font-bold border-[2px] border-[#858585] p-1 rounded-full bg-[#5c5c5c9c]">
                     <svg
                       width="18"
                       height="16"
@@ -233,7 +230,7 @@ function Watchlist() {
                 </Tooltip>
                 <Tooltip content="Add to watchlist">
                   <button
-                    onClick={() => handleWatchList(film.id)}
+                    onClick={() => handleWatchList(film?.id)}
                     className="text-[20px] font-bold border-[2px] border-[#858585] p-1 rounded-full bg-[#5c5c5c9c]"
                   >
                     <svg
