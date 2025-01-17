@@ -1,4 +1,3 @@
-import { Navbar } from "@/components/Navbar";
 import "./globals.css";
 import { UserProvider } from "./(header)/context/UserContext";
 
