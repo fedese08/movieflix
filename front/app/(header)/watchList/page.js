@@ -6,7 +6,7 @@ import { Tooltip } from "flowbite-react";
 import { useRouter } from "next/navigation";
 
 export default function MyLists() {
-  const [selection, setSelection] = React.useState("watchlist");
+  const [selection, setSelection] = useState("watchlist");
 
   const [watched, setWatched] = useState([]);
   const [watchList, setWatchList] = useState([]);

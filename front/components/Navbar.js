@@ -92,7 +92,7 @@ export const Navbar = () => {
               <p
                 className="cursor-pointer  w-full py-4 px-2 md:hover:bg-transparent  hover:bg-[#1f1f1f]"
                 onClick={() => {
-                  router.push("/watch-list"), handleMenuToggle();
+                  router.push("/watchList"), handleMenuToggle();
                 }}
               >
                 My List
