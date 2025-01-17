@@ -2,8 +2,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import { toast, Toaster } from "sonner";
 import { UserContext } from "../context/UserContext";
-import { useRouter } from "next/navigation";
 import { Tooltip } from "flowbite-react";
+import { useRouter } from "next/navigation";
 
 export default function MyLists() {
   const [selection, setSelection] = React.useState("watchlist");
