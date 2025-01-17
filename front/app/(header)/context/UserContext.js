@@ -143,6 +143,25 @@ export const UserProvider = (props) => {
       .catch((err) => console.error(err));
   }
 
+  const refreshUser = async function () {
+    if (userLogged) {
+      await fetch(`http://localhost:5000/api/users/${userLogged._id}`)
+        .then((response) => {
+          if (!response.ok) {
+            return response.json().then((data) => {
+              throw new Error(data.message || "An error occurred");
+            });
+          }
+          return response.json();
+        })
+        .then((data) => {
+          console.log(data);
+          setUserLogged(data);
+        })
+        .catch((err) => console.error(err));
+    }
+  };
+
   return (
     <UserContext.Provider
       value={{
@@ -153,6 +172,7 @@ export const UserProvider = (props) => {
         isLogged,
         addToWatchList,
         addToWatchedList,
+        refreshUser,
       }}
     >
       {props.children}

@@ -1,18 +1,17 @@
 "use client";
 import React, { useContext, useEffect, useState } from "react";
+import { toast, Toaster } from "sonner";
 import { UserContext } from "../context/UserContext";
 import { useRouter } from "next/navigation";
-import { Tooltip } from "@nextui-org/tooltip";
-import { Toaster, toast } from "sonner";
+import { Tooltip } from "flowbite-react";
 
-function Watchlist() {
-  const [watchList, setWatchList] = useState([]);
+export default function MyLists() {
+  const [selection, setSelection] = React.useState("watchlist");
+
   const [watched, setWatched] = useState([]);
+  const [watchList, setWatchList] = useState([]);
 
-  const [selection, setSelection] = useState("watchlist");
-
-  const { isLogged, userLogged, addToWatchedList, addToWatchList } =
-    useContext(UserContext);
+  const { isLogged, userLogged, refreshUser } = useContext(UserContext);
 
   const router = useRouter();
 
@@ -20,27 +19,67 @@ function Watchlist() {
     router.push("/login");
   }
 
-  function handleWatchList(id) {
-    toast.success("Added to Watchlist!");
-    addToWatchList(id);
-    let newWatched = watched.filter((f) => f.id !== id);
-    setWatched(newWatched);
-    searchWatchlist(id);
-  }
+  const handleWatchList = (id) => {
+    if (watchList.includes(id)) {
+      toast.error("Already on the list!");
+    } else if (watched.includes(id)) {
+      const newWatched = watched.filter((movieId) => movieId !== id);
+      const newWatchList = [...watchList, id];
+      setWatched(newWatched);
+      setWatchList(newWatchList);
+      toast.success("Added to Watchlist!");
+      updateLists(newWatchList, newWatched);
+    } else {
+      const newWatchList = [...watchList, id];
+      setWatchList(newWatchList);
+      toast.success("Added to Watchlist!");
+      updateLists(newWatchList, watched);
+    }
+  };
 
-  function handleWatched(id) {
-    toast.success("Added to Watched list!");
-    addToWatchedList(id);
-    let newWatchList = watchList.filter((f) => f.id !== id);
-    setWatchList(newWatchList);
-    searchWatched(id);
-  }
+  const handleWatchedList = (id) => {
+    if (watched.includes(id)) {
+      toast.error("Already on the list!");
+    } else if (watchList.includes(id)) {
+      const newWatchList = watchList.filter((movieId) => movieId !== id);
+      const newWatched = [...watched, id];
+      setWatchList(newWatchList);
+      setWatched(newWatched);
+      toast.success("Added to Watched!");
+      updateLists(newWatchList, newWatched);
+    } else {
+      const newWatched = [...watched, id];
+      setWatched(newWatched);
+      toast.success("Added to Watched!");
+      updateLists(watchList, newWatched);
+    }
+  };
+
+  const updateLists = async (watchList, watched) => {
+    const options = {
+      method: "PUT",
+      body: JSON.stringify({
+        watchList: watchList,
+        watched: watched,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    await fetch(`http://localhost:5000/api/users/${userLogged._id}`, options)
+      .then((response) => response.json())
+      .then((response) => {
+        console.log("Lists updated");
+        refreshUser();
+      })
+      .catch((err) => console.error(err));
+  };
 
   async function searchWatchlist(id) {
     const options = {
       method: "GET",
       headers: {
-        accept: "application/json",
+        "Content-Type": "application/json",
         Authorization:
           "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI3MmJkMWYyODI1ZGQ1Zjc0ZjAxYWI2MzYwZmY2ZmFhNSIsInN1YiI6IjYyYjI1MmM2NzUxMTBkMDA1MDllYWRhMCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.4bS5LtZJr43TsfGTyi-ykQ1W5Lt1sc77t3pXcsHOX1Y",
       },
@@ -51,6 +90,7 @@ function Watchlist() {
     )
       .then((response) => response.json())
       .then((response) => {
+        console.log(response);
         setWatchList((prevWatchList) => {
           // Verificar si el elemento ya existe en el array
           const isDuplicate = prevWatchList.some(
@@ -71,7 +111,7 @@ function Watchlist() {
     const options = {
       method: "GET",
       headers: {
-        accept: "application/json",
+        "Content-Type": "application/json",
         Authorization:
           "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI3MmJkMWYyODI1ZGQ1Zjc0ZjAxYWI2MzYwZmY2ZmFhNSIsInN1YiI6IjYyYjI1MmM2NzUxMTBkMDA1MDllYWRhMCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.4bS5LtZJr43TsfGTyi-ykQ1W5Lt1sc77t3pXcsHOX1Y",
       },
@@ -82,6 +122,7 @@ function Watchlist() {
     )
       .then((response) => response.json())
       .then((response) => {
+        console.log(response);
         setWatched((prevWatched) => {
           // Verificar si el elemento ya existe en el array
           const isDuplicate = prevWatched.some(
@@ -101,6 +142,7 @@ function Watchlist() {
   useEffect(() => {
     userLogged?.watchList?.forEach((f) => searchWatchlist(f));
     userLogged?.watched?.forEach((f) => searchWatched(f));
+    console.log("cambio");
   }, [userLogged]);
 
   return (
@@ -128,11 +170,11 @@ function Watchlist() {
           Watched
         </h1>
       </div>
-      <div className="flex flex-wrap gap-4 ">
+      <div className="flex flex-wrap gap-4 mt-4">
         {selection === "watchlist" ? (
           watchList?.length > 0 ? (
             watchList?.map((film) => (
-              <div key={film.id} className="h-[16em] w-[10em] group">
+              <div key={film?.id} className="h-[16em] w-[10em] group">
                 <img
                   src={`https://image.tmdb.org/t/p/w500${film?.poster_path}`}
                   alt={film.title}
@@ -166,7 +208,7 @@ function Watchlist() {
                   </Tooltip>
                   <Tooltip content="Mark as watched">
                     <button
-                      onClick={() => handleWatched(film?.id)}
+                      onClick={() => handleWatchedList(film?.id)}
                       className="text-[20px] font-bold border-[2px] border-[#858585] p-1 rounded-full bg-[#5c5c5c9c]"
                     >
                       <svg
@@ -263,5 +305,3 @@ function Watchlist() {
     </div>
   );
 }
-
-export default Watchlist;
