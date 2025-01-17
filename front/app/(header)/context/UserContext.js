@@ -21,7 +21,10 @@ export const UserProvider = (props) => {
         "Content-Type": "application/json",
       },
     };
-    await fetch("http://localhost:5000/api/users/register", options)
+    await fetch(
+      "https://movieflix-gu1i.onrender.com/api/users/register",
+      options
+    )
       .then((response) => {
         if (!response.ok) {
           return response.json().then((data) => {
@@ -49,7 +52,7 @@ export const UserProvider = (props) => {
         "Content-Type": "application/json",
       },
     };
-    await fetch("http://localhost:5000/api/users/login", options)
+    await fetch("https://movieflix-gu1i.onrender.com/api/users/login", options)
       .then((response) => {
         if (!response.ok) {
           return response.json().then((data) => {
@@ -89,7 +92,10 @@ export const UserProvider = (props) => {
         "Content-Type": "application/json",
       },
     };
-    await fetch(`http://localhost:5000/api/users/${userLogged._id}`, options)
+    await fetch(
+      `https://movieflix-gu1i.onrender.com/api/users/${userLogged._id}`,
+      options
+    )
       .then((response) => {
         if (!response.ok) {
           return response.json().then((data) => {
@@ -127,7 +133,10 @@ export const UserProvider = (props) => {
         "Content-Type": "application/json",
       },
     };
-    await fetch(`http://localhost:5000/api/users/${userLogged._id}`, options)
+    await fetch(
+      `https://movieflix-gu1i.onrender.com/api/users/${userLogged._id}`,
+      options
+    )
       .then((response) => {
         if (!response.ok) {
           return response.json().then((data) => {
@@ -145,7 +154,9 @@ export const UserProvider = (props) => {
 
   const refreshUser = async function () {
     if (userLogged) {
-      await fetch(`http://localhost:5000/api/users/${userLogged._id}`)
+      await fetch(
+        `https://movieflix-gu1i.onrender.com/api/users/${userLogged._id}`
+      )
         .then((response) => {
           if (!response.ok) {
             return response.json().then((data) => {

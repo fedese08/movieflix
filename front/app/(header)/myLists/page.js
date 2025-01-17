@@ -68,7 +68,10 @@ export default function MyLists() {
         "Content-Type": "application/json",
       },
     };
-    await fetch(`http://localhost:5000/api/users/${userLogged._id}`, options)
+    await fetch(
+      `https://movieflix-gu1i.onrender.com/api/users/${userLogged._id}`,
+      options
+    )
       .then((response) => response.json())
       .then((response) => {
         console.log("Lists updated");
