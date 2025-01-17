@@ -15,9 +15,11 @@ export default function MyLists() {
 
   const router = useRouter();
 
-  if (!isLogged) {
-    router.push("/login");
-  }
+  useEffect(() => {
+    if (!isLogged) {
+      router.push("/login");
+    }
+  }, []);
 
   const handleWatchList = (id) => {
     if (watchList.includes(id)) {
